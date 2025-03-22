@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Hungry Snake</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="front">
+        <h1>!!HUNGRY SNAKE!!</h1><br>
+        <h2>let's Satisfy the Hunger of Hungry Snake</h2>
+        <button id="startButton" onclick="startGame()">Start Game</button>
+        <div id="hiscoreBox">HiScore: 0</div>
+        <label for="speed">Select Speed:</label>
+     <select id="speed">
+    <option value="5">Slow</option>
+    <option value="10">Medium</option>
+    <option value="15" selected>Fast</option>
+    <option value="20">Very Fast</option>
+    <option value="25">If you can</option>
+    <option value="30">Master</option>
+</select>
+        </div>
+</body>
+<script src="js/index.js"></script>
+<script>
+    function startGame() {
+        let selectedSpeed = document.getElementById("speed").value;
+        localStorage.setItem("snakeSpeed", selectedSpeed);
+        console.log("Start Game button clicked"); // Debugging
+        window.location.href = "gamepage.html"; // Redirect to index.html
+    }
+</script>
+</html>
