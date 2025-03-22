@@ -18,8 +18,18 @@
         <div id="scoreBox">Score: 0</div>
         <div id="hiscoreBox">HiScore: 0</div>
         <div id="board"></div>
+        <button id="musicToggle">Pause Music</button>
+        <button id="pauseButton">Pause Game</button>
     </div>
 </body>
+<script>document.addEventListener("DOMContentLoaded", function () {
+    // Ensure music plays when the game page loads
+    if (localStorage.getItem("musicPlaying") === "true") {
+        musicSound.play();
+    }
+});
+</script>
+
 <script src="js/index.js">
 </script>
 </html>
