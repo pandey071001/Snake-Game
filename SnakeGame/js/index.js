@@ -227,51 +227,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 });
-document.addEventListener("DOMContentLoaded", function() {
-    // Apply fullscreen on front page and game page
-    function requestFullscreen() {
-        let elem = document.documentElement;
-        if (elem.requestFullscreen) {
-            elem.requestFullscreen();
-        } else if (elem.mozRequestFullScreen) { // Firefox
-            elem.mozRequestFullScreen();
-        } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, Opera
-            elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) { // IE/Edge
-            elem.msRequestFullscreen();
-        }
-    }
-
-    // Make sure fullscreen is triggered when clicking "Start Game"
-    let startButton = document.getElementById("startButton");
-    if (startButton) {
-        startButton.addEventListener("click", function() {
-            requestFullscreen();
-        });
-    }
-
-    // Ensure game page stays fullscreen
-    if (window.location.pathname.includes("gamepage.html")) {
-        requestFullscreen();
-        
-        // Prevent screen from scrolling when swiping
-        document.addEventListener("touchmove", function(event) {
-            event.preventDefault();
-        }, { passive: false });
-
-        // Prevent accidental back/forward navigation
-        window.addEventListener("touchstart", function(event) {
-            event.preventDefault();
-        }, { passive: false });
-
-        // Lock orientation to portrait
-        if (screen.orientation) {
-            screen.orientation.lock("portrait").catch(error => {
-                console.log("Orientation lock not supported:", error);
-            });
-        }
-    }
-});
 
 let isPaused = false; // Track game pause state
 
