@@ -14,6 +14,7 @@ let snakeArr = [
 food = {x: 6, y: 7};
 
 
+
 // Game Functions
 function main(ctime) {
     window.requestAnimationFrame(main);
@@ -101,10 +102,39 @@ function gameEngine(){
 
 
 }
+// music feature
+document.addEventListener("DOMContentLoaded", function () {
+    const musicButton = document.getElementById("musicToggle");
 
+    // Check if music was playing before and resume it
+    if (localStorage.getItem("musicPlaying") === "true") {
+        musicSound.play();
+    }
+
+    musicButton.addEventListener("click", () => {
+        if (musicSound.paused) {
+            musicSound.play();
+            musicButton.textContent = "Pause Music";
+            localStorage.setItem("musicPlaying", "true");
+        } else {
+            musicSound.pause();
+            musicButton.textContent = "Play Music";
+            localStorage.setItem("musicPlaying", "false");
+        }
+    });
+});
+
+
+
+// Ensure the button text updates correctly when the game starts
+document.addEventListener("DOMContentLoaded", () => {
+    if (!musicSound.paused) {
+        musicButton.textContent = "Stop Music";
+    }
+});
 
 // Main logic starts here
-musicSound.play();
+// musicSound.play();
 let hiscore = localStorage.getItem("hiscore");
 if(hiscore === null){
     hiscoreval = 0;
@@ -119,6 +149,7 @@ window.requestAnimationFrame(main);
 window.addEventListener('keydown', e =>{
     inputDir = {x: 0, y: 1} // Start the game
     moveSound.play();
+
     switch (e.key) {
         case "ArrowUp":
             console.log("ArrowUp");
@@ -192,6 +223,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             moveSound.play();
+            
         });
     }
 });
@@ -219,7 +251,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Ensure game page stays fullscreen
-    if (window.location.pathname.includes("gamegame.html")) {
+    if (window.location.pathname.includes("gamepage.html")) {
         requestFullscreen();
         
         // Prevent screen from scrolling when swiping
@@ -240,3 +272,45 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 });
+
+let isPaused = false; // Track game pause state
+
+// Function to toggle pause
+function togglePause() {
+    isPaused = !isPaused;
+
+    if (isPaused) {
+        musicSound.pause(); // Pause music
+    } else {
+        if (localStorage.getItem("musicPlaying") === "true") {
+            musicSound.play(); // Resume music if it was enabled
+        }
+        window.requestAnimationFrame(main); // Resume the game loop
+    }
+}
+
+// Modify the main function to respect pause state
+function main(ctime) {
+    if (isPaused) return; // Stop updating when paused
+
+    window.requestAnimationFrame(main);
+    if ((ctime - lastPaintTime) / 1000 < 1 / speed) {
+        return;
+    }
+    lastPaintTime = ctime;
+    gameEngine();
+}
+
+// Ensure pause button works
+document.addEventListener("DOMContentLoaded", function () {
+    let pauseButton = document.getElementById("pauseButton");
+    if (pauseButton) {
+        pauseButton.addEventListener("click", togglePause);
+    }
+
+    // Ensure music starts if it was on
+    if (localStorage.getItem("musicPlaying") === "true") {
+        musicSound.play();
+    }
+});
+
